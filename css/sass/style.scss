@@ -1,0 +1,88 @@
+@import 'variables';
+@import 'mixins';
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+/* So it begins... */
+
+/* global styles start */
+
+body {
+	font-size:14px;
+	font-family:Verdana;
+	color:#fff;
+    -webkit-font-smoothing: antialiased;
+	background:url("#{$imagePath}/coffee-background.jpg") #000;
+	background-size:cover;
+
+	&.body-loaded {
+		.appear {
+			opacity:1;
+
+			&.appear-from-left {
+				@include transform(translate3d(0,0,0));
+			}
+		}
+	}
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Oswald', sans-serif;
+	text-transform:uppercase;
+}
+
+h1 {
+	font-size:$fontHuge;	
+}
+
+/* (re)set margins */
+h1, h2, h3, h4, h5, h6, p {
+	margin:0 0 $gutter 0;
+}
+
+/* global styles end */
+
+.appear {
+	@for $i from 0 to 10 {
+		&:nth-child(#{$i}) { transition-delay: $i * $dur/2; }
+	}
+
+	opacity:0;
+	@include transition(all $dur $easing);
+
+	&.appear-from-left {
+		@include transform(translate3d(-70px,0,0));
+	}
+}
+
+.outer-wrapper {
+	display:flex;
+	align-items: center;
+	position:relative;
+	width:1200px;
+	max-width:100%;
+	margin: 0 auto;
+    min-height: 100vh;
+	padding-top:1px; /* used for margin collapsing */
+	padding:$gutter;
+	box-sizing:border-box;	
+}
+
+.button {
+	background-color: $mainColor;
+    border: none;
+    border-bottom:2px solid darken($mainColor,20%);
+    color: #fff;
+    padding: $gutter/2 $gutter*1.5;
+    cursor:pointer;
+    font-family: 'Oswald', sans-serif;
+	text-transform:uppercase;
+	@include transition(all $durQuick $easing);
+
+	&:hover { 
+		background-color: $mainColorHover;
+	}
+
+	&:focus {
+		outline:none;
+	}
+}
