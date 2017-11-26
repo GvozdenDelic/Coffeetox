@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'mixins';
+@import 'slick';
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 
 /* So it begins... */
@@ -7,22 +8,13 @@
 /* global styles start */
 
 body {
-	font-size:14px;
+	font-size:$fontSize;
 	font-family:Verdana;
 	color:#fff;
     -webkit-font-smoothing: antialiased;
 	background:url("#{$imagePath}/coffee-background.jpg") #000;
 	background-size:cover;
-
-	&.body-loaded {
-		.appear {
-			opacity:1;
-
-			&.appear-from-left {
-				@include transform(translate3d(0,0,0));
-			}
-		}
-	}
+	background-attachment:fixed;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -31,7 +23,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size:$fontHuge;	
+	font-size:$fontSize*5;	
+}
+
+h2 {
+	font-size:$fontSize*2;	
+	line-height:$fontSize*2;
 }
 
 /* (re)set margins */
@@ -49,14 +46,20 @@ h1, h2, h3, h4, h5, h6, p {
 	opacity:0;
 	@include transition(all $dur $easing);
 
-	&.appear-from-left {
-		@include transform(translate3d(-70px,0,0));
+	&.appear-from-top {
+		@include transform(translate3d(0,-30px,0));
+	}
+
+	&.appeared {
+		opacity:1;
+
+		&.appear-from-top {
+			@include transform(translate3d(0,0,0));
+		}
 	}
 }
 
 .outer-wrapper {
-	display:flex;
-	align-items: center;
 	position:relative;
 	width:1200px;
 	max-width:100%;
@@ -73,6 +76,7 @@ h1, h2, h3, h4, h5, h6, p {
     border-bottom:2px solid darken($mainColor,20%);
     color: #fff;
     padding: $gutter/2 $gutter*1.5;
+    margin-bottom: $gutter;
     cursor:pointer;
     font-family: 'Oswald', sans-serif;
 	text-transform:uppercase;
@@ -85,4 +89,203 @@ h1, h2, h3, h4, h5, h6, p {
 	&:focus {
 		outline:none;
 	}
+}
+
+.slider {
+	position:relative;
+	opacity:0;
+	margin-bottom: $gutter;
+	@include transition(all $dur $easing);
+
+	.slick-arrow {
+		position:absolute;
+		top:50%;
+		z-index:50;
+		@extend .button;
+		padding: $gutter/6 $gutter/2;
+		@include transform(translate3d(0,-50%,0));
+
+		&.slick-prev {
+			left:-$gutter;
+		}
+
+		&.slick-next {
+			right:-$gutter;
+		}
+	}
+
+	&.loaded {
+		opacity:1;
+	}
+}
+
+.venues-list {
+	opacity:0;
+	position:relative;
+	background:#fff;
+	padding:$gutter;
+
+	.venue-item {
+		position:relative;
+		display:inline-flex;
+		width:33.33%;
+		box-sizing:border-box;
+		background-size:cover;
+		height:200px;
+		cursor:pointer;
+		overflow:hidden;
+		padding:$gutter;
+
+		.venue-image {
+			background-size: cover;
+		    @include absoluteHolder();
+		    z-index:-1;
+    		@include transition(all $dur $easing);
+		}
+
+		.venue-name,
+		.venue-distance {
+			opacity:0;
+			@include transition(all $dur $easing);
+		}
+
+		.venue-distance {
+			line-height:$fontSize*2;
+			position: absolute;
+		    top: $gutter;
+		    color: #000;
+		    right: $gutter;
+		    padding: 0 $gutter/2;
+		    background: #fff;
+		}
+
+		&:first-of-type {
+			width:100%;
+			height:600px;
+		}
+
+		&:after {
+			content:"";
+			background:#000;
+			opacity:0.2;
+			pointer-events:none;
+			z-index:-1;
+			@include absoluteHolder();
+			@include transition(all $dur $easing);
+		}
+
+		&:hover {
+			&:after { 
+				opacity:0.3;
+			}
+
+			&:first-of-type { 
+				.venue-image { 
+					@include transform(scale(1.025));
+				}
+			}
+
+			.venue-image {
+				@include transform(scale(1.05));
+			}
+
+			.venue-name,
+			.venue-distance { 
+				opacity:1;
+			}
+
+		}
+	}
+
+	.venue-detail {
+		opacity:0;
+		@include absoluteHolder();
+		height:auto;
+		min-height:100%;
+		padding:$gutter;
+		box-sizing:border-box;
+		background:#fff;
+		color:#000;
+		@include transition(all $dur $easing);
+		z-index:-10;
+
+		.venue-expensiveness {
+			text-transform:lowercase;
+		}
+
+		.close-detail {
+			display:none;
+		}
+
+		.venue-distance {
+			margin-bottom:$gutter;
+		}
+
+		.venue-tip-item {
+			margin-bottom: $gutter;
+		}
+
+		&.opened {
+			opacity:1;
+			z-index:10;
+
+			.close-detail { 
+				display:block;
+				position:absolute;
+				top:$gutter;
+				right:$gutter;
+				z-index:15;
+			}
+ 
+		}
+	}
+}
+
+@media (max-width: 768px) {
+
+	h1 {
+		font-size:$fontSize*3;
+	}
+
+	.intro-section {
+		padding: $gutter $gutter 0 $gutter;
+	}
+
+	.outer-wrapper {
+		padding: 0;
+	}
+
+	.venues-list {
+		.venue-item {
+			width:100%;
+			height:400px;
+
+			&:first-of-type {
+				height:400px;
+			}
+
+			.venue-distance {
+				top:0;
+				right:0;
+			}
+		}
+
+		.venue-item .venue-name,
+		.venue-item .venue-distance {
+			opacity: 1;
+		}
+
+		.venue-detail.opened .close-detail {
+			position:relative;
+			width:100%;
+		}
+
+		.sort-button {
+			width:100%;
+		}
+
+		.slider .slick-arrow {
+			display:none;
+		}
+	} 
 }

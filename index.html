@@ -15,21 +15,33 @@
 	<div class="inner-wrapper">
 		
 		<section class="intro-section">
-			<div class="appear appear-from-left">
+			<div class="appear appear-from-top">
 				<h1>Welcome to Coffeetox</h1>
 			</div>
 
-			<div class="appear appear-from-left">
+			<div class="description appear appear-from-top">
 				<p>We will show you only the very best coffee shops near you, but first we need to access your current location.</p>
 			</div>
-			<div class="appear appear-from-left">
-				<button class="button js-getLocation" onClick="getLocation()">Locate me</button>
+			<div class="locate-button appear appear-from-top">
+				<button class="button js-getLocation">Locate me</button>
 			</div>
+		</section>
+
+		<section class="venues-list">
+			<button class="button sort-button js-getLocation" data-sort="distance">Sort By Price</button>
+
+			<section class="venue-detail">
+				<button class="button close-detail">Close Page</button>
+				<div class="venue-detail-data"></div>
+				<div class="venue-tips"></div>
+			</section>
 		</section>
 
 	</div>
 </div>
 
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/slick.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
