@@ -59,6 +59,14 @@ getLocation.click(function(){
         $.getJSON('https://api.foursquare.com/v2/venues/explore?ll='+location+'&client_id='+clientID+'&client_secret='+clientSecret+'&sortByDistance='+sortByDistance+'&limit='+limit+'&radius='+itemRadius+'&section='+section+'&venuePhotos='+venuePhotos+'&v=20172611'+sortByDistance,  
         function(data) {
 
+            // Worst case scenario - when there is no coffee in a 1000m area
+            if(data.response.totalResults === 0) {
+                $('.sort-button').hide();
+                $(".venues-list").append('<div class="warning">Unfortunately, no coffee is found in 1000m radius. :(</div>');
+
+                return;
+            }
+
             $.each(data.response.groups[0].items, function(i,item){
 
                 venueID[i]              = item.venue.id;
@@ -76,6 +84,7 @@ getLocation.click(function(){
 
                 //Now that we have all the data needed, let's make the html
                 var venueItem = '<div class="venue-item venue-item-'+[i]+'" data-number="'+[i]+'"><h2 class="venue-name">'+venueNames[i]+'</h2><div class="venue-image" style="background-image:url('+venuePhotosList[i]+');"></div><div class="venue-distance">'+venueDistance[i]+'m</div></div>';
+
                 $(".venues-list").append(venueItem);
             });
 
@@ -108,6 +117,7 @@ getLocation.click(function(){
                 detailHTML =    '<h2>'+venueNames[itemNumber]+'</h2>'
                                 + '<div class="venue-distance">'+venueNames[itemNumber]+' is only '+venueDistance[itemNumber]+'m away. Prices here are '+venueExpensiveness[itemNumber].toLowerCase()+'.</div>'
                                 + '<div class="slider">'+venueSlider+'</div>';
+
                 $(".venue-detail-data").append(detailHTML);
 
                 setTimeout(function(){

@@ -199,6 +199,8 @@ h1, h2, h3, h4, h5, h6, p {
   position: relative;
   background: #fff;
   padding: 30px; }
+  .venues-list .warning {
+    color: #000; }
   .venues-list .venue-item {
     position: relative;
     display: inline-flex;
