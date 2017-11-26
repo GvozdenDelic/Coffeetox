@@ -71,7 +71,7 @@ getLocation.click(function(){
                 }
                 else {
                 // Venue has no image ? No problem, we got that covered
-                    venuePhotosList[i] = document.location + '/img/no-image.jpg';
+                    venuePhotosList[i] = document.URL + '/img/no-image.jpg';
                 }
 
                 //Now that we have all the data needed, let's make the html
