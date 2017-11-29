@@ -1,1 +1,1 @@
-# Quantox test - Coffetox coffee finder app
+# Coffetox coffee finder app
